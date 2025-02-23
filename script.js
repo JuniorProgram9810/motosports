@@ -1,47 +1,56 @@
-// JavaScript para menú móvil
-// Eventos y Manipulación de DOM
-
-// Evento para buscar productos en la barra de búsqueda
+// Búsqueda de productos con efecto de transición
 function buscarProducto() {
     const input = document.getElementById("searchInput").value.toLowerCase();
     const productos = document.querySelectorAll(".producto-item");
-
+  
     productos.forEach((producto) => {
-        const titulo = producto.querySelector("h3").textContent.toLowerCase();
-        producto.style.display = titulo.includes(input) ? "block" : "none";
+      const titulo = producto.querySelector("h3").textContent.toLowerCase();
+      // Añadimos una pequeña animación al ocultar/mostrar productos
+      if (titulo.includes(input)) {
+        producto.style.opacity = 0;
+        producto.style.display = "block";
+        setTimeout(() => {
+          producto.style.opacity = 1;
+        }, 100);
+      } else {
+        producto.style.opacity = 0;
+        setTimeout(() => {
+          producto.style.display = "none";
+        }, 300);
+      }
     });
-}
-
-// Agregar evento para que se ejecute la búsqueda al presionar Enter en el input
-document.getElementById("searchInput").addEventListener("keyup", function(event) {
+  }
+  
+  // Ejecutar búsqueda al presionar Enter en el input
+  document.getElementById("searchInput").addEventListener("keyup", function(event) {
     if (event.key === "Enter") {
-        buscarProducto();
+      buscarProducto();
     }
-});
-
-// Autenticación de Usuario (Simulada)
-function autenticarUsuario() {
+  });
+  
+  // Autenticación de Usuario (Simulada)
+  function autenticarUsuario() {
     const usuario = prompt("Ingrese su usuario:");
     const contraseña = prompt("Ingrese su contraseña:");
-
-    // Aquí se realiza una autenticación básica simulada.
+  
     if (usuario === "admin" && contraseña === "1234") {
-        alert("¡Bienvenido, " + usuario + "!");
+      alert("¡Bienvenido, " + usuario + "!");
     } else {
-        alert("Usuario o contraseña incorrectos.");
+      alert("Usuario o contraseña incorrectos.");
     }
-}
-
-// Botón de autenticación
-const authButton = document.createElement("button");
-authButton.textContent = "Iniciar Sesión";
-authButton.className = "auth-button"; // Aplicar la clase CSS
-authButton.onclick = autenticarUsuario;
-document.body.insertBefore(authButton, document.body.firstChild);
-
-// Evento para cambiar el color de fondo al hacer clic en los productos
-document.querySelectorAll(".producto-item").forEach((producto) => {
+  }
+  
+  // Creación dinámica del botón de autenticación
+  const authButton = document.createElement("button");
+  authButton.textContent = "Iniciar Sesión";
+  authButton.className = "auth-button";
+  authButton.onclick = autenticarUsuario;
+  document.body.insertBefore(authButton, document.body.firstChild);
+  
+  // Evento para resaltar productos al hacer clic (cambia con transición)
+  document.querySelectorAll(".producto-item").forEach((producto) => {
     producto.addEventListener("click", () => {
-        producto.style.backgroundColor = producto.style.backgroundColor === "lightblue" ? "" : "lightblue";
+      producto.classList.toggle("seleccionado");
     });
-});
+  });
+  
